@@ -1,0 +1,16 @@
+.register-page {
+    margin: 0 -50% 0 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.register-form {
+    display: grid;
+    gap: 20px;
+}
+
+.name-surname-wrapper {
+    display: flex;
+}
