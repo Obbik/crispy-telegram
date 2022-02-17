@@ -39,6 +39,11 @@ app.get('/', (req, res) => {
 
 
 
-server.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+
+server.listen({port: port}).then(({url}) => {
+  console.log(`🚀  Server ready at ${url}`)
 })
+
+// server.listen(port, () => {
+//   console.log(`Example app listening at http://localhost:${port}`)
+// })
