@@ -1,14 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/loginPage/LoginPage";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <h1 >
-        hello
-      </h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<LoginPage />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
