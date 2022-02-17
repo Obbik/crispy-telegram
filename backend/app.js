@@ -1,13 +1,27 @@
 import express from "express";
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+
 import mysql from "mysql"
+import {ApolloServer} from "apollo-server";
+import {gql} from "graphql-tag"
 
 const app = express()
 const port = process.env.PORT || 3001;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const typeDefs = gql`
+  type Query {
+    User: String!
+  }
+`
+const resolvers = {
+  Query: {
+    User: () => "Hello World"
+  }
+}
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers
+})
 
 
 const connection = mysql.createConnection({
@@ -23,6 +37,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!2')
 })
 
-app.listen(port, () => {
+
+
+server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
