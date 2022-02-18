@@ -1,8 +1,8 @@
-import { connection } from "../../app";
 
-connection.query('SELECT 1 + 1 AS solution', (err, rows, fields) => {
-    if (err) throw err
-  
-    console.log('The solution is: ', rows[0].solution)
-  })
-  
+export const  InsertUser = (name, email, password, height) => {
+
+    const query = `INSERT INTO Users (name, email, password, height)
+     VALUES ('${name}', '${email}', '${password}', '${height}')`;
+  return query;    
+}
+

@@ -20,10 +20,11 @@ export const connection = mysql.createConnection({
 })
 connection.connect()
 
- const x = connection.query('SELECT 1 + 1 AS solution', (err, rows, fields) => {
+let sql = "CREATE TABLE IF NOT EXISTS Users  (id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(255), password VARCHAR(255), email VARCHAR(255), height VARCHAR(255))";
+
+ connection.query(sql, (err, rows, fields) => {
   if (err) throw err
-console.log("test")
-  return rows[0].solution
+    console.log("Users table created")
 })
 
 
