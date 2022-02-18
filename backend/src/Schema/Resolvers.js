@@ -1,5 +1,5 @@
 import { connection } from "../../app.js"
-import {InsertUser} from  '../models/User.js'
+import { InsertUser, LoginUser } from "../models/User.js"
 
 const resolvers = {
 	Query: {
@@ -8,22 +8,33 @@ const resolvers = {
 		},
 	},
 
-    Mutation: {
-        createUser(parent, args ) {
-            const newUser = args 
+	Mutation: {
+		Login(parent, args) {
+			const query = LoginUser(args.name, args.password)
+			connection.query(query, (err, rows, fields) => {
+				if (err) {
+					console.log(err)
+					return err
+				}
+			})
+            return {name:"test", token:"12341234"}
+		},
 
-            let insert = InsertUser(newUser.name, newUser.email, newUser.password, newUser.height)
-            try {
-                connection.query(insert,(err, rows, fields) => {
-                if (err) throw err
-                return "User created"
-                })
-                return "User created"
-            } catch (error) {
-                return error
-            }
-        }
-    }
+		createUser(parent, args) {
+			const newUser = args
+
+			let insert = InsertUser(newUser.name, newUser.email, newUser.password, newUser.height)
+			try {
+				connection.query(insert, (err, rows, fields) => {
+					if (err) throw err
+					return { data: "User created" }
+				})
+			} catch (error) {
+				return error
+			}
+			return { data: "User created" }
+		},
+	},
 }
 
-export {resolvers}
+export { resolvers }

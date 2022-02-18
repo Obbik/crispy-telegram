@@ -36,5 +36,6 @@ services:
       volumes: 
         - ./:/app
         - /app/node_modules
+        - ./:/app/src
 volumes:
   dbdata:
