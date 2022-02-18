@@ -1,57 +1,10 @@
-import React from "react";
-import { useState } from "react";
+import useRegister from './useRegisterLogic';
 import { Typography, Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Link } from "react-router-dom";
 import './styles.css';
-import axios from "axios";
 
 const RegisterPage = () => {
-    const [ state, setState ] = useState({
-        name: '',
-        email: '',
-        password: '',
-        height: 'Midget'
-    })
-    const [isPending, setIsPending] = useState(false)
-
-    let handleChange = (name, value) => {
-        setState({
-            ...state,
-            [name]: value
-        })
-        console.log(name, value)
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const { name, email, password, height } = state;
-
-        setIsPending(true)
-
-        axios({
-            url: 'http://localhost:3001/',
-            method: 'post',
-            data: {
-                query: `mutation  {
-                  createUser (name: "${name}",email: "${email}", password: "${password}", height: "${height}"){
-                    name,
-                    email,
-                    password,
-                    height
-                  }
-                }`
-            }
-        })
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(err => {
-                console.log(err.message);
-            });
-
-        console.log(name, email, password, height)
-    }
+    const { handleSubmit, handleChange, state } = useRegister()
 
     return <div className="register-page">
         <Typography variant="h1">
@@ -69,6 +22,7 @@ const RegisterPage = () => {
                         width: '50%',
                         marginRight: '5px'
                     }}
+                    value={state.name}
                     onChange={(e) => {handleChange(e.target.name, e.target.value)}}
                 />
                 <TextField
@@ -79,6 +33,7 @@ const RegisterPage = () => {
                         width: '50%',
                         marginLeft: '5px'
                     }}
+                    value={state.email}
                     onChange={(e) => {handleChange(e.target.name, e.target.value)}}
                 />
             </div>
@@ -86,11 +41,13 @@ const RegisterPage = () => {
                 label="Password"
                 name="password"
                 variant="outlined"
+                value={state.password}
                 onChange={(e) => {handleChange(e.target.name, e.target.value)}}
             />
             <FormControl fullWidth>
                 <InputLabel id="height-input-label">Height</InputLabel>
                 <Select
+                    name="height"
                     labelId="height-input-label"
                     id="height-select"
                     onChange={(e) => {handleChange(e.target.name, e.target.value)}}
