@@ -4,7 +4,7 @@ import {InsertUser} from  '../models/User.js'
 const resolvers = {
 	Query: {
 		getUser() {
-			return [{ name: "test", email: "test@test", password: "test" }]
+			return [{ name: "test", email: "test@test", token: "12341234" }]
 		},
 	},
 
