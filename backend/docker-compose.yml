@@ -28,14 +28,13 @@ services:
 
   node:
       build: .
-      command: npm start
       ports:
           - 3001:3001
       depends_on: 
           - db
       volumes: 
         - ./:/app
-        - /app/node_modules
-        - ./:/app/src
+      #   - /app/node_modules
+      #   - ./:/app/src
 volumes:
   dbdata:
