@@ -2,15 +2,15 @@ import express from "express";
 
 import mysql from "mysql"
 import {ApolloServer} from "apollo-server";
-import {gql} from "graphql-tag"
 
 import { resolvers } from "./src/Schema/Resolvers.js";
 import { typeDefs } from "./src/Schema/UserSchema.js";
+import dotenv from "dotenv"
 
 const app = express()
 const port = process.env.PORT || 3001;
 
-
+dotenv.config()
 
 export const connection = mysql.createConnection({
   host: 'db',
@@ -31,16 +31,8 @@ const server = new ApolloServer({
   typeDefs,
   resolvers
 })
-
-app.get('/', (req, res) => {
-  res.send('Hello World!2')
-})
-
-
 server.listen({port: port}).then(({url}) => {
   console.log(`🚀  Server ready at ${url}`)
+  console.log("test")
 })
 
-// server.listen(port, () => {
-//   console.log(`Example app listening at http://localhost:${port}`)
-// })
