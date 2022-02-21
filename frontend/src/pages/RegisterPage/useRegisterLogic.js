@@ -1,5 +1,5 @@
 import {useState} from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const useRegister = () => {
@@ -10,7 +10,7 @@ const useRegister = () => {
         height: 'Midget'
     })
     const [isPending, setIsPending] = useState(false)
-    const history = useHistory()
+    const history = useNavigate()
 
     const handleChange = (name, value) => {
         setState({
