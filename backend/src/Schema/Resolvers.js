@@ -1,41 +1,70 @@
 import { connection } from "../../app.js"
 import { InsertUser, LoginUser } from "../models/User.js"
+import bcrypt from "bcrypt"
+
+
 
 import jwt from "jsonwebtoken"
 
+
+const LoginIn = async (name,email) => {
+    return new Promise((resolve, reject) => {
+		const sql = LoginUser(name,email)
+        connection.query(sql, (err, results) => {
+            if (err) reject(err);
+            resolve(results[0]);
+        });
+    });
+};
+
+const createNewUser = async (name, email, pass, height) => {
+    return new Promise((resolve, reject) => {
+		const sql = InsertUser(name, email, pass, height)
+        connection.query(sql, (err, results) => {
+            if (err) reject(err);
+            resolve(results.insertId);
+        });
+    });
+};
+
+const tokenExpire = 3 * 24 * 24 * 60 * 60 //3 days in seconds
+const createToken = (id) => {
+return 	jwt.sign({id}, "secret", {
+	expiresIn: tokenExpire
+} )
+}
+
 const resolvers = {
-
-
 	Mutation: {
-		Login(parent, args) {
-			const query = LoginUser(args.name, args.password)
-			connection.query(query, (err, rows, fields) => {
-				if (err) {
-					console.log(err)
-					return err
-				}
-                else{
-                    let {id, name, password, email, height } = rows[0]
-                    console.log(jwt.sign({ id: id }, process.env.JWT_SECRET))
-                //    return jwt.sign({ id: id }, process.env.JWT_SECRET)
-                }
-			})
-            return {name:"test", token:"12341234"}
+		async Login(parent, args) {
+		let user  = await LoginIn(args.name, args.email)
+		if (user) {
+			const auth = await bcrypt.compare(args.password, user.password)
+			if (auth) {
+				const token = createToken(args.id)
+				return {name:args.name, token} 
+			}
+			else {
+				throw Error (" incorret password")
+			}
+		}
+		else {
+			throw Error ("user not found")
+		}
+			
 		},
 
-		createUser(parent, args) {
-			const newUser = args
 
-			let insert = InsertUser(newUser.name, newUser.email, newUser.password, newUser.height)
-			try {
-				connection.query(insert, (err, rows, fields) => {
-					if (err) throw err
-					return { data: "User created" }
-				})
-			} catch (error) {
-				return error
-			}
-			return { data: "User created" }
+
+
+		async createUser(parent, args) {
+			const {name, email, height} = args
+			const salt = await bcrypt.genSalt()
+			let pass = await bcrypt.hash(args.password, salt)
+			let id = await createNewUser(name, email, pass, height)
+			console.log(id)
+			const token = createToken(id)
+			return { name, token}
 		},
 	},
 }
