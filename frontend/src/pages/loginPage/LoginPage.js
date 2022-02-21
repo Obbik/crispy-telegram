@@ -1,20 +1,39 @@
-import React from "react";
-import { useState } from "react";
+import { React ,useState } from "react";
 import "./LoginPage.css";
-import { Button, ButtonGroup, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const loginData = { userName, userPassword };
 
-    console.log(loginData);
+    axios({
+      url: 'http://localhost:3001/',
+      method: 'post',
+      data: {
+          query: `mutation  {
+            Login (name: "${userName}", password: "${userPassword}"){
+              name,
+              token,
+            }
+          }`
+      }
+  })
+      .then(res => {
+       if(res.data.data.Login.token){
+         
+       }
+      })
+      .catch(err => {
+          console.log(err.message);
+      });
   };
 
   return (
