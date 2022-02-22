@@ -16,6 +16,7 @@ RUN npm install
 COPY . . 
 # copy rest files into / app
 
+ENV JWT_SECRET="SECRET"
 
 EXPOSE 3001
 
