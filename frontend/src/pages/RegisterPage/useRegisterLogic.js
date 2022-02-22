@@ -34,9 +34,7 @@ const useRegister = () => {
                 query: `mutation  {
                   createUser (name: "${name}",email: "${email}", password: "${password}", height: "${height}"){
                     name,
-                    email,
-                    password,
-                    height
+                    token
                   }
                 }`
             }

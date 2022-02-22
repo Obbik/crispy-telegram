@@ -1,39 +1,36 @@
-import { React ,useState } from "react";
+import { React, useState } from "react";
 import "./LoginPage.css";
 import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import useFetch from "../../utils/useFetch";
+import { LOGIN_MUTATION } from "./loginMutationGql";
 
-const LoginPage = () => {
-  const [userName, setUserName] = useState("");
-  const [userPassword, setUserPassword] = useState("");
+const LoginPage = ({setToken}) => {
+  const {query} = useFetch();
+  const [userLogin, setUserLogin] = useState({
+    name: "",
+    password: "",
+    email: "",
+  });
 
+
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setUserLogin({
+      ...userLogin,
+      [name]: value,
+    });
+    console.log(userLogin);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-
-    axios({
-      url: 'http://localhost:3001/',
-      method: 'post',
-      data: {
-          query: `mutation  {
-            Login (name: "${userName}", password: "${userPassword}"){
-              name,
-              token,
-            }
-          }`
-      }
-  })
-      .then(res => {
-       if(res.data.data.Login.token){
-         
-       }
-      })
-      .catch(err => {
-          console.log(err.message);
-      });
+    query(LOGIN_MUTATION(userLogin.name, userLogin.password, userLogin.email), res => {
+      setToken(res.data.data.Login.token)
+      localStorage.setItem('name', res.data.data.Login.name);
+      localStorage.setItem('userToken', res.data.data.Login.token);
+    }, 'post' )
   };
 
   return (
@@ -45,20 +42,32 @@ const LoginPage = () => {
       <form onSubmit={handleSubmit} className="login-form">
         <TextField
           id="outlined-basic"
+          name="name"
           label="User Name"
           variant="outlined"
           margin="normal"
           autoComplete="off"
-          onChange={(e) => setUserName(e.target.value)}
+          onChange={handleChange}
         />
 
         <TextField
           id="outlined-basic"
+          name="password"
           label="Password"
           variant="outlined"
           margin="normal"
           type="password"
-          onChange={(e) => setUserPassword(e.target.value)}
+          onChange={handleChange}
+        />
+
+        <TextField
+          id="outlined-basic"
+          name="email"
+          label="email"
+          variant="outlined"
+          margin="normal"
+          type="email"
+          onChange={handleChange}
         />
 
         <Box
