@@ -6,8 +6,7 @@ import bcrypt from "bcrypt"
 
 import jwt from "jsonwebtoken"
 
-
-const LoginIn = async (name,email) => {
+export const LoginIn = async (name,email) => {
     return new Promise((resolve, reject) => {
 		const sql = LoginUser(name,email)
         connection.query(sql, (err, results) => {
@@ -29,7 +28,7 @@ const createNewUser = async (name, email, pass, height) => {
 
 const tokenExpire = 3 * 24 * 24 * 60 * 60 //3 days in seconds
 const createToken = (id) => {
-return 	jwt.sign({id}, "secret", {
+return 	jwt.sign({id}, process.env.JWT_SECRET, {
 	expiresIn: tokenExpire
 } )
 }
