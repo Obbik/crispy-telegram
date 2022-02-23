@@ -1,15 +1,31 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import LoginPage from "./pages/loginPage/LoginPage";
+import LogoImage from "../images/logo.png";
+import {
+  Navigation,
+  Logo,
+  Links,
+  NavigationContainer,
+  NavLinks,
+  NavItem,
+} from "./Header.style";
 
-const App = () => {
+function header() {
   return (
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<LoginPage />} />
-      </Routes>
-    </Router>
+    <>
+      <Navigation>
+        <NavigationContainer>
+          <Logo>
+            <img src={LogoImage} alt="" />
+          </Logo>
+          <Links>
+            <NavItem>
+              <NavLinks>Sign up</NavLinks>
+            </NavItem>
+          </Links>
+        </NavigationContainer>
+      </Navigation>
+    </>
   );
-};
+}
 
-export default App;
+export default header;
