@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/loginPage/LoginPage";
+import MainPage from "./pages/MainPage/MainPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 const App = () => {
@@ -14,7 +15,7 @@ const App = () => {
     <Router>
       {token ? (
         <Routes>
-          <Route exact path="/" element={<div>Main App</div>} />
+          <Route exact path="/" element={<MainPage setToken={setToken} />} />
         </Routes>
       ) : (
         <Routes>
