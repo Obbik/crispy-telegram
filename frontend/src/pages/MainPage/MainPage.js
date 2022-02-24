@@ -13,7 +13,7 @@ const MainPage = ({ setToken }) => {
           transform: "translate(-50%, 50%)",
         }}
       >
-        <Button variant="contained" style={{}}>
+        <Button variant="contained" >
           Create task
         </Button>
         <Button
@@ -23,7 +23,6 @@ const MainPage = ({ setToken }) => {
             localStorage.removeItem("userToken");
             setToken(null);
           }}
-          style={{}}
         >
           Logout
         </Button>
