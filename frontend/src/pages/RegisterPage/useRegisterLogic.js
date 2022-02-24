@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -7,10 +7,11 @@ const useRegister = () => {
         name: '',
         email: '',
         password: '',
-        height: 'Midget'
+        height: ''
     })
     const [isPending, setIsPending] = useState(false)
-    const history = useNavigate()
+    const [isFormFilled, setIsFormFilled] = useState(false)
+    const navigate = useNavigate()
 
     const handleChange = (name, value) => {
         setState({
@@ -41,10 +42,10 @@ const useRegister = () => {
         })
             .then(res => {
                 console.log(res.data);
-                history.push('/')
+                navigate('/', { replace: true })
             })
             .catch(err => {
-                console.log(err.message);
+                console.log(err.message)
             });
 
         console.log(name, email, password, height)

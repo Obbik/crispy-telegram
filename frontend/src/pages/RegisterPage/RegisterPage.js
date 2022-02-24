@@ -39,6 +39,7 @@ const RegisterPage = () => {
             </div>
             <TextField
                 label="Password"
+                type="password"
                 name="password"
                 variant="outlined"
                 value={state.password}
