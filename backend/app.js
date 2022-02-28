@@ -54,7 +54,8 @@ const server = new ApolloServer({
 	schema,
 	context: ({ req }) => {
 		// get token from header
-		const token = req.headers.authorization
+		console.log(req.headers.authorization)
+		const token = req.headers.authorization || ""
 
 		const user = getUser(token)
 

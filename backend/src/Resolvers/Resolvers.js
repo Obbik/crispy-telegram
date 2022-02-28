@@ -33,7 +33,8 @@ const createToken = (id) => {
 
 const resolvers = {
 	Mutation: {
-		async Login(parent, args) {
+		async Login(parent, args, context) {
+			console.log(context, "test")
 			let user = await LoginIn(args.name, args.email)
 			if (user) {
 				const auth = await bcrypt.compare(args.password, user.password)
@@ -48,7 +49,8 @@ const resolvers = {
 			}
 		},
 
-		async createUser(parent, args) {
+		async createUser(parent, args, context) {
+			console.log(context, "test")
 			const { name, email, height } = args
 			const salt = await bcrypt.genSalt()
 			let pass = await bcrypt.hash(args.password, salt)
