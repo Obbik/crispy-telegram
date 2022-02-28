@@ -10,8 +10,6 @@ import { CardResolvers } from "./src/Resolvers/CardResolver.js"
 import { typeDefs } from "./src/Schema/UserSchema.js"
 import { CardSchema } from "./src/Schema/CardSchema.js"
 
-import merge from "lodash"
-
 import dotenv from "dotenv"
 import jwt from "jsonwebtoken"
 
