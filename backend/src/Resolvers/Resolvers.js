@@ -31,17 +31,6 @@ const createToken = (id) => {
 	})
 }
 
-const CreateCardTask = async (title, comment, type, date, status) => {
-	return new Promise((resolve, reject) => {
-		const sql = `INSERT INTO CardTask (title, comment, type, date, status)
-		VALUES ('${title}', '${comment}', '${type}', '${date}', '${status}');`
-		connection.query(sql, (err, results) => {
-			if (err) reject(err)
-			resolve(results)
-		})
-	})
-}
-
 const resolvers = {
 	Mutation: {
 		async Login(parent, args) {
@@ -67,19 +56,8 @@ const resolvers = {
 			const token = createToken(id)
 			return { name, token }
 		},
-
-		async CreateCardTask(parent, args) {
-			const { title, comment, type, date, status } = args
-			try{
-				await CreateCardTask(title, comment, type, date, status)
-				return {title, comment, type, date, status}
-			}
-			catch(err){
-				throw Error(err)
-			}
-
-		},
 	},
+
 }
 
 export { resolvers }

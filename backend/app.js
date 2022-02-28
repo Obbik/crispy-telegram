@@ -1,10 +1,17 @@
 import express from "express"
-
 import mysql from "mysql"
 import { ApolloServer } from "apollo-server"
+import { makeExecutableSchema } from "@graphql-tools/schema"
+import { mergeResolvers } from "@graphql-tools/merge"
 
 import { resolvers } from "./src/Resolvers/Resolvers.js"
+import { CardResolvers } from "./src/Resolvers/CardResolver.js"
+
 import { typeDefs } from "./src/Schema/UserSchema.js"
+import { CardSchema } from "./src/Schema/CardSchema.js"
+
+import merge from "lodash"
+
 import dotenv from "dotenv"
 import jwt from "jsonwebtoken"
 
@@ -40,10 +47,13 @@ const getUser = (token) => {
 		}
 	}
 }
+const schema = makeExecutableSchema({
+	typeDefs: [typeDefs, CardSchema],
+	resolvers: [resolvers, CardResolvers], 
+})
 
 const server = new ApolloServer({
-	typeDefs,
-	resolvers,
+	schema,
 	context: ({ req }) => {
 		// get token from header
 		const token = req.headers.authorization
