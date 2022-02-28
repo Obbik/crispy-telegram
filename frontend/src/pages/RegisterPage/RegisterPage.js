@@ -29,6 +29,7 @@ const RegisterPage = () => {
                     label="E-mail"
                     name="email"
                     variant="outlined"
+                    type="email"
                     sx={{
                         width: '50%',
                         marginLeft: '5px'
@@ -42,6 +43,7 @@ const RegisterPage = () => {
                 type="password"
                 name="password"
                 variant="outlined"
+                inputProps={{minLength: 8}}
                 value={state.password}
                 onChange={(e) => {handleChange(e.target.name, e.target.value)}}
             />
