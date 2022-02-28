@@ -88,21 +88,22 @@ const LoginPage = ({setToken}) => {
           >
             Login
           </Button>
-          <Button
+          <Link
+            to="/register"
             style={{
-              width: "45%",
+              textDecoration: "none",
+              color: "inherit",
+              width: "45%"
             }}
-          >
-            <Link
-              to="/register"
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-              }}
             >
-              register
+              <Button
+                style={{
+                    width: "100%"
+                }}
+              >
+                register
+              </Button>
             </Link>
-          </Button>
         </Box>
       </form>
     </div>
