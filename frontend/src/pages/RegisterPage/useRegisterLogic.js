@@ -1,6 +1,7 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { REGISTER_MUTATION } from './registerMutationGql';
+import useFetch from "../../utils/useFetch";
 
 const useRegister = () => {
     const [ state, setState ] = useState({
@@ -12,46 +13,27 @@ const useRegister = () => {
     const [isPending, setIsPending] = useState(false)
     const [isFormFilled, setIsFormFilled] = useState(false)
     const navigate = useNavigate()
+    const { query } = useFetch()
 
     const handleChange = (name, value) => {
         setState({
             ...state,
             [name]: value
         })
-        console.log(name, value)
     }
+
+    useEffect(() => {
+        setIsFormFilled(!Object.values(state).some(value => value === ''))
+    }, [state]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        query(REGISTER_MUTATION(state.name, state.email, state.password, state.height), res => {
+            navigate('/', { replace: true })
+        }, 'post' )
+    };
 
-        const { name, email, password, height } = state;
-
-        setIsPending(true)
-
-        axios({
-            url: 'http://localhost:3001/',
-            method: 'post',
-            data: {
-                query: `mutation  {
-                  createUser (name: "${name}",email: "${email}", password: "${password}", height: "${height}"){
-                    name,
-                    token
-                  }
-                }`
-            }
-        })
-            .then(res => {
-                console.log(res.data);
-                navigate('/', { replace: true })
-            })
-            .catch(err => {
-                console.log(err.message)
-            });
-
-        console.log(name, email, password, height)
-    }
-
-    return { handleChange, handleSubmit, state }
+    return { handleChange, handleSubmit, state, isFormFilled }
 }
 
 export default useRegister;

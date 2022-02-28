@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import './styles.css';
 
 const RegisterPage = () => {
-    const { handleSubmit, handleChange, state } = useRegister()
+    const { handleSubmit, handleChange, state, isFormFilled } = useRegister()
 
     return <div className="register-page">
         <Typography variant="h1">
@@ -15,7 +15,7 @@ const RegisterPage = () => {
             className="register-form">
             <div className="name-surname-wrapper">
                 <TextField
-                    label="Name"
+                    label="User Name"
                     name="name"
                     variant="outlined"
                     sx={{
@@ -59,7 +59,7 @@ const RegisterPage = () => {
                     <MenuItem value={'Giant'}>Giant</MenuItem>
                 </Select>
             </FormControl>
-            <Button variant="contained" type="submit">Register</Button>
+            <Button variant="contained" type="submit" disabled={!isFormFilled}>Register</Button>
         </form>
         <div className="log-in-wrapper">
             <p>or</p>
